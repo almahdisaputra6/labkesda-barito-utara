@@ -1,7 +1,7 @@
 // firebase.js
 
 const firebaseConfig = {
-  aapiKey: "AIzaSyAesZs1ytBEiE0_UW1eXwQtM5lXbE_VhJs",
+  apiKey: "AIzaSyAesZs1ytBEiE0_UW1eXwQtM5lXbE_VhJs",
   authDomain: "labkesda-barito-utara.firebaseapp.com",
   projectId: "labkesda-barito-utara",
   storageBucket: "labkesda-barito-utara.firebasestorage.app",
