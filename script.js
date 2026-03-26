@@ -20,14 +20,16 @@ db.collection("berita").get().then(res => {
 });
 
 function login() {
-  let email = document.getElementById("email").value;
-  let password = document.getElementById("password").value;
-
-  firebase.auth().signInWithEmailAndPassword(email, password)
-    .then(() => {
-      window.location.href = "dashboard.html";
-    })
-    .catch(err => alert(err.message));
+  auth.signInWithEmailAndPassword(
+    email.value,
+    password.value
+  ).then(() => {
+    alert("Login berhasil");
+    window.location.href = "dashboard.html";
+  }).catch(err => {
+    alert("Error: " + err.message);
+    console.log(err);
+  });
 }
 
 function simpan() {
