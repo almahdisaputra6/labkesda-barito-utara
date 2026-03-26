@@ -30,8 +30,12 @@ function login() {
     email.value,
     password.value
   ).then(() => {
+    alert("Login berhasil");
     window.location.href = "dashboard.html";
-  }).catch(err => alert(err.message));
+  }).catch(err => {
+    alert("Error: " + err.message);
+    console.log(err);
+  });
 }
 </script>
 
