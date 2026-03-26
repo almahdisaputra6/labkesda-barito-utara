@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body { display:flex; }
+.sidebar {
+  width:250px; background:#198754; color:white; height:100vh; padding:20px;
+}
+.sidebar a { color:white; display:block; margin:10px 0; text-decoration:none; }
+.content { flex:1; padding:20px; }
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+  <h4>ADMIN</h4>
+  <a href="#">Berita</a>
+  <a href="#" onclick="logout()">Logout</a>
+</div>
+
+<div class="content">
+
+<h3>Kelola Berita</h3>
+
+<div class="card p-3 mb-3">
+  <input id="judul" class="form-control mb-2" placeholder="Judul">
+  <textarea id="deskripsi" class="form-control mb-2"></textarea>
+  <input type="file" id="file" class="form-control mb-2">
+  <button onclick="upload()" class="btn btn-success">Simpan</button>
+</div>
+
+<table class="table">
+<thead><tr><th>Judul</th><th>Aksi</th></tr></thead>
+<tbody id="data"></tbody>
+</table>
+
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
+
+<script src="firebase.js"></script>
+
+<script>
+
+// PROTECT LOGIN
+auth.onAuthStateChanged(user => {
+  if (!user) location.href = "admin.html";
+});
+
+// UPLOAD + SIMPAN
+function upload() {
+  let file = document.getElementById("file").files[0];
+
+  if (!file) return alert("Pilih file!");
+
+  let ref = storage.ref(file.name);
+
+  ref.put(file).then(() => {
+    ref.getDownloadURL().then(url => {
+
+      db.collection("berita").add({
+        judul: judul.value,
+        deskripsi: deskripsi.value,
+        gambar: url
+      });
+
+      alert("Berhasil");
+      load();
+    });
+  });
+}
+
+// LOAD DATA
+function load() {
+  db.collection("berita").get().then(res => {
+    let html = "";
+
+    res.forEach(doc => {
+      let d = doc.data();
+
+      html += `
+      <tr>
+        <td>${d.judul}</td>
+        <td>
+          <button onclick="hapus('${doc.id}')" class="btn btn-danger btn-sm">Hapus</button>
+        </td>
+      </tr>`;
+    });
+
+    data.innerHTML = html;
+  });
+}
+
+function hapus(id) {
+  db.collection("berita").doc(id).delete().then(load);
+}
+
+function logout() {
+  auth.signOut().then(()=>location.href="admin.html");
+}
+
+load();
+
+</script>
+
+</body>
+</html>

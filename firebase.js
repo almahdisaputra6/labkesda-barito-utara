@@ -1,0 +1,16 @@
+// firebase.js
+
+const firebaseConfig = {
+  aapiKey: "AIzaSyAesZs1ytBEiE0_UW1eXwQtM5lXbE_VhJs",
+  authDomain: "labkesda-barito-utara.firebaseapp.com",
+  projectId: "labkesda-barito-utara",
+  storageBucket: "labkesda-barito-utara.firebasestorage.app",
+  messagingSenderId: "755322490739",
+  appId: "1:755322490739:web:4f9f4b240d630639b87f06"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const db = firebase.firestore();
+const auth = firebase.auth();
+const storage = firebase.storage();
